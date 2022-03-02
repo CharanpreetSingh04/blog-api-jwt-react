@@ -13,10 +13,10 @@ function Login() {
         };
         axios.get('http://localhost:5000/login',config).then(function (response) {
             if(response.status === 403){
-                console.log('login required')
+                return console.log('login required')
             }
-            console.log(response.data.isRequired)
-            if(response.data.isRequired === 0){
+            else if(response.data.isRequired === 0){
+                localStorage.setItem('user', JSON.stringify(response.data.authData))
                 navigate('/dashboard');
             }     
         }).catch(function (error) {
@@ -33,16 +33,28 @@ function Login() {
     const validateCredentials = () => {
         details.email = inputEmailRef.current.value
         details.password = inputPasswordRef.current.value
+        const data = {
+            email: details.email,
+            password: details.password
+        }
         const config = {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
             }
         };
-        axios.post('http://localhost:5000/login',config).then(function (response) {
-            console.log(response);
-            localStorage.setItem('token', response.data.token);
-            navigate('/dashboard');
+        axios.post('http://localhost:5000/login',data,config).then(function (response) {
+            if(response.data.msg === 'Password is incorrect'){
+                navigate('/login')
+            }
+            else if(response.data.msg === 'email not registered'){
+                navigate('/login')
+            }
+            else{
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data))
+                navigate('/dashboard');
+            }
             
           }).catch(function (error) {
                 console.log(error)

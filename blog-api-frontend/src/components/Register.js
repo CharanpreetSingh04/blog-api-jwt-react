@@ -8,23 +8,35 @@ function Register() {
         password: '',
         confirmPassword: ''
     }
+    const errors = [];
     const navigate = useNavigate();
     const inputNameRef = useRef();
     const inputEmailRef = useRef();
     const inputPasswordRef = useRef();
     const inputConfirmPasswordRef = useRef();
+    const inputButtonRef = useRef();
     const validateCredentials = () => {
         details.name = inputNameRef.current.value
         details.email = inputEmailRef.current.value
         details.password = inputPasswordRef.current.value
         details.confirmPassword = inputConfirmPasswordRef.current.value
+        //validations left
+        if(details.password !== details.confirmPassword){
+            errors.push('Passwords does not match')
+
+        }
+        const data =  {
+            name: details.name,
+            email: details.email,
+            password: details.password
+        }
         const config = {
             headers: {
               "Access-Control-Allow-Origin": "*",
               "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
             }
         };
-        axios.post('http://localhost:5000/register',config).then(function (response) {
+        axios.post('http://localhost:5000/register',data,config).then(function (response) {
             localStorage.setItem('token', response.data.token);
             navigate('/login');
             
@@ -79,7 +91,7 @@ function Register() {
                     ref={inputConfirmPasswordRef}
                 />
                 </div>
-                <input type="button" className="btn btn-primary btn-block" value="Register" onClick={validateCredentials}/>
+                <input type="button" ref= {inputButtonRef} className="btn btn-primary btn-block" value="Register" onClick={validateCredentials}/>
             </form>
             <p className="lead mt-4">Have An Account? <Link to="/login">Login</Link></p>
         </div>

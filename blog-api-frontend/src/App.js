@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import NotFound from './components/NotFound';
 import Register from './components/Register';
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 function App() {
   return (
     <Router>
@@ -16,7 +17,7 @@ function App() {
             <Route path='/' exact element={<Home/>}/>
             <Route path='/register' exact element={<Register/>}/>
             <Route path='/login' exact element={<Login/>}/>
-            <Route path='/dashboard' exact element={<Home/>}/>
+            <Route path='/dashboard' exact element={<Dashboard/>}/>
             {/* <Route path='/shop/:id' element={<ItemDetail/>}/> */}
             <Route path="*" element={<NotFound/>}/>
           </Routes>

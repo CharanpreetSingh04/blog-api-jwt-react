@@ -1,3 +1,4 @@
 /blog-api-frontend/node_modules
 /blog-api-backend/node_modules
 /blog-api-frontend/.env
+/blog-api-backend/.env
